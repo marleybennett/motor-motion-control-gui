@@ -16,7 +16,7 @@ The GUI will allow users to modify motion control parameters as well as view dat
   - Use updated names for xaml elements
   - Add name of parameter, range values, default value, units, and optional additional information.
 
-                <!---Parameter 1-->
+                <!---Parameter X-->
             <TextBlock x:Name="descriptionX" Grid.Row="Y"
                     HorizontalAlignment="Left" VerticalAlignment="Center" 
                     TextWrapping="Wrap" Margin="10" 
