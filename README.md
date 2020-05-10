@@ -8,31 +8,29 @@ The GUI will allow users to modify motion control parameters as well as view dat
 
 **Instructions for Adding Parameters**
 1. Create 2 new rows in grid definiton on MainWindow.xaml
-2. Create new TextBlock for parameter description, new TextBox for user entry, and new Button for submit.
-3. Edit TextBlock (parameter description) to set Grid.Row to the next row (eg. if previous parameter button was row 6, this TextBlock will be on row 7).
-4. Edit Grid.Row on the TextBox and Button to the next row (row 8).
-5. Update x:Name for each new xaml entry by updating only the number.
+2. Create new TextBlock for parameter description, new TextBox for user entry, and new Button for submit (use code below or copy and paste from xaml file)
+3. Update x:Name for each new xaml entry by updating ONLY the number (X in example).
+4. Update Grid.Row with next row for TextBlock (from previous parameter) (Y in example).
+5. Update Grid.Row with row after row used for TextBlock for TextBox and Button.
 6. In MainWindow.xaml.cs, in MainWindow function, copy the new Parameter(...) line and modify as necessary
   - Use updated names for xaml elements
   - Add name of parameter, range values, default value, units, and optional additional information.
 
+                <!---Parameter 1-->
+            <TextBlock x:Name="descriptionX" Grid.Row="Y"
+                    HorizontalAlignment="Left" VerticalAlignment="Center" 
+                    TextWrapping="Wrap" Margin="10" 
+                    Grid.Column="2" Grid.ColumnSpan="2"
+                />
 
-                <!---Sample Parameter-->
-                <TextBlock Margin="10" x:Name="description1"
-                HorizontalAlignment="Left" VerticalAlignment="Center" 
-                  TextWrapping="Wrap"
-                  Grid.Row="5" Grid.Column="2" Grid.ColumnSpan="2">
-                </TextBlock>
+            <TextBox  x:Name="textX" Grid.Row="Y+1"
+                    HorizontalAlignment="Right" VerticalAlignment="Top"
+                    Margin="10" Grid.Column="2"
+                    Tag="Angle" KeyDown="CheckEnter"
+               />
 
-                <TextBox Margin="10" x:Name="text*1*"
-                HorizontalAlignment="Right" VerticalAlignment="Top"
-                        Grid.Row="6" Grid.Column="2"
-                        Tag="Angle" KeyDown="CheckEnter"
-                        />
-
-                <Button Margin="10" x:Name="button1"
-                HorizontalAlignment="Left" VerticalAlignment="Top"
-                 Content="Submit"
-                    Click ="GetTextBox" ClickMode="Release"
-                    Grid.Row="6" Grid.Column="3"
-                    />
+            <Button x:Name="buttonX" Grid.Row="Y+1"
+                    HorizontalAlignment="Left" VerticalAlignment="Top"
+                    Grid.Column="3" Margin="10" 
+                    Content="Submit" Click ="GetTextBox" ClickMode="Release"
+                />
