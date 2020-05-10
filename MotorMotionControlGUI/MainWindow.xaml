@@ -10,7 +10,7 @@
     <ScrollViewer HorizontalScrollBarVisibility="Auto">
         <!--Add scroll bar-->
             <!--Grid for resizing window and easier organization-->
-            <Grid Margin="40">
+            <Grid Margin="40" HorizontalAlignment="Stretch">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition/>
                     <ColumnDefinition/>
@@ -179,7 +179,7 @@
 
                 <!---Parameter 2-->
                 <TextBlock Margin="10" x:Name="description2"
-                HorizontalAlignment="Stretch" VerticalAlignment="Stretch" 
+                HorizontalAlignment="Left" VerticalAlignment="Stretch" 
                   TextWrapping="Wrap"
                   Grid.Row="7" Grid.Column="2" Grid.ColumnSpan="2">
                 </TextBlock>
@@ -187,8 +187,7 @@
                 <TextBox Margin="10" x:Name="text2"
                 HorizontalAlignment="Right" VerticalAlignment="Top"
                     Grid.Row="8" Grid.Column="2"
-                     Tag="Speed" KeyDown="CheckEnter"
-                         BorderBrush="#D3832B"
+                     KeyDown="CheckEnter"
                 />
                 <Button Margin="10"  x:Name="button2"
                 HorizontalAlignment="Left" VerticalAlignment="Top"
@@ -199,7 +198,7 @@
 
                 <!---Parameter 3-->
                 <TextBlock Margin="10" x:Name="description3"
-                HorizontalAlignment="Stretch" VerticalAlignment="Top" 
+                HorizontalAlignment="Left" VerticalAlignment="Top" 
                   TextWrapping="Wrap"
                   Grid.Row="9" Grid.Column="2" Grid.ColumnSpan="2">
                 </TextBlock>
@@ -207,8 +206,7 @@
                 <TextBox Margin="10" x:Name="text3"
                 HorizontalAlignment="Right" VerticalAlignment="Top"
                     Grid.Row="10" Grid.Column="2"
-                     Tag="Ramp" KeyDown="CheckEnter"
-                         BorderBrush="#D3832B"
+                    KeyDown="CheckEnter"
                      />
 
                 <Button Margin="10" x:Name="button3"
