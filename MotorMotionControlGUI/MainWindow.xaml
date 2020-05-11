@@ -111,7 +111,7 @@
                     HorizontalAlignment="Left" VerticalAlignment="Top"
                     TextWrapping="Wrap"
                        LineHeight="20">
-               <Underline>40:1 Spur Gearbox</Underline> <LineBreak/> <LineBreak/>
+               40:1 SPUR GEARBOX <LineBreak/> <LineBreak/>
             Body Diameter: 12mm <LineBreak/>
             Voltage: 12VDC <LineBreak/>
             No-Load Current: 400mA<LineBreak/>
@@ -148,73 +148,75 @@
             >
                 </Border>
 
-                <!--Parameter Text Details and Input-->
-                <TextBlock Margin="10"
-                       Text="Parameter Values"
-                       Grid.Row="4" Grid.Column="2" Grid.ColumnSpan="2"
-                       HorizontalAlignment="Center" VerticalAlignment="Top"
-                       />
+            <!--Parameter Text Details and Input-->
+            <TextBlock Margin="10"
+                    Text="Parameter Values"
+                    Grid.Row="4" Grid.Column="2" Grid.ColumnSpan="2"
+                    HorizontalAlignment="Center" VerticalAlignment="Top"
+                />
 
 
                 <!---Parameter 1-->
-                <TextBlock Margin="10" x:Name="description1"
-                HorizontalAlignment="Left" VerticalAlignment="Center" 
-                  TextWrapping="Wrap"
-                  Grid.Row="5" Grid.Column="2" Grid.ColumnSpan="2">
-                </TextBlock>
-
-                <TextBox Margin="10" x:Name="text1"
-                HorizontalAlignment="Right" VerticalAlignment="Top"
-                        Grid.Row="6" Grid.Column="2"
-                        Tag="Angle" KeyDown="CheckEnter"
-                         BorderBrush="#D3832B"
-                        />
-
-                <Button Margin="10" x:Name="button1"
-                HorizontalAlignment="Left" VerticalAlignment="Top"
-                 Content="Submit"
-                    Click ="GetTextBox" ClickMode="Release"
-                    Grid.Row="6" Grid.Column="3"
-                    />
-
-                <!---Parameter 2-->
-                <TextBlock Margin="10" x:Name="description2"
-                HorizontalAlignment="Left" VerticalAlignment="Stretch" 
-                  TextWrapping="Wrap"
-                  Grid.Row="7" Grid.Column="2" Grid.ColumnSpan="2">
-                </TextBlock>
-
-                <TextBox Margin="10" x:Name="text2"
-                HorizontalAlignment="Right" VerticalAlignment="Top"
-                    Grid.Row="8" Grid.Column="2"
-                     KeyDown="CheckEnter"
+            <TextBlock x:Name="description1" Grid.Row="5"
+                    HorizontalAlignment="Left" VerticalAlignment="Center" 
+                    TextWrapping="Wrap" Margin="10" 
+                    Grid.Column="2" Grid.ColumnSpan="2"
                 />
-                <Button Margin="10"  x:Name="button2"
-                HorizontalAlignment="Left" VerticalAlignment="Top"
-                Content="Submit"
-                    Click ="GetTextBox" ClickMode="Release"
-                    Grid.Row="8" Grid.Column="3"
-                    />
 
-                <!---Parameter 3-->
-                <TextBlock Margin="10" x:Name="description3"
-                HorizontalAlignment="Left" VerticalAlignment="Top" 
-                  TextWrapping="Wrap"
-                  Grid.Row="9" Grid.Column="2" Grid.ColumnSpan="2">
-                </TextBlock>
+            <TextBox  x:Name="text1" Grid.Row="6"
+                    HorizontalAlignment="Right" VerticalAlignment="Top"
+                    Margin="10" Grid.Column="2"
+                    Tag="Angle" KeyDown="CheckEnter"
+               />
 
-                <TextBox Margin="10" x:Name="text3"
-                HorizontalAlignment="Right" VerticalAlignment="Top"
-                    Grid.Row="10" Grid.Column="2"
-                    KeyDown="CheckEnter"
-                     />
+            <Button x:Name="button1" Grid.Row="6"
+                    HorizontalAlignment="Left" VerticalAlignment="Top"
+                    Grid.Column="3" Margin="10" 
+                    Content="Submit" Click ="GetTextBox" ClickMode="Release"
+                />
 
-                <Button Margin="10" x:Name="button3"
-                HorizontalAlignment="Left" VerticalAlignment="Top"
-                 Content="Submit"
-                    Click ="GetTextBox" ClickMode="Release"
-                    Grid.Row="10" Grid.Column="3"
-                    />
+
+
+            <!---Parameter 2-->
+            <TextBlock x:Name="description2" Grid.Row="7"
+                    HorizontalAlignment="Left" VerticalAlignment="Center" 
+                    TextWrapping="Wrap" Margin="10" 
+                    Grid.Column="2" Grid.ColumnSpan="2"
+                />
+
+            <TextBox  x:Name="text2" Grid.Row="8"
+                    HorizontalAlignment="Right" VerticalAlignment="Top"
+                    Margin="10" Grid.Column="2"
+                    Tag="Angle" KeyDown="CheckEnter"
+               />
+
+            <Button x:Name="button2" Grid.Row="8"
+                    HorizontalAlignment="Left" VerticalAlignment="Top"
+                    Grid.Column="3" Margin="10" 
+                    Content="Submit" Click ="GetTextBox" ClickMode="Release"
+                />
+
+
+
+            <!---Parameter 3-->
+            <TextBlock x:Name="description3" Grid.Row="9"
+                    HorizontalAlignment="Left" VerticalAlignment="Center" 
+                    TextWrapping="Wrap" Margin="10" 
+                    Grid.Column="2" Grid.ColumnSpan="2"
+                />
+
+            <TextBox  x:Name="text3" Grid.Row="10"
+                    HorizontalAlignment="Right" VerticalAlignment="Top"
+                    Margin="10" Grid.Column="2"
+                    Tag="Angle" KeyDown="CheckEnter"
+               />
+
+            <Button x:Name="button3" Grid.Row="10"
+                    HorizontalAlignment="Left" VerticalAlignment="Top"
+                    Grid.Column="3" Margin="10" 
+                    Content="Submit" Click ="GetTextBox" ClickMode="Release"
+                />
+
 
                 <!--Border for encoder data-->
                 <Border Margin="5"
@@ -247,16 +249,16 @@
                        HorizontalAlignment="Center" VerticalAlignment="Top"
                        />
 
-                <TextBlock Margin="15,15,0,0"
+            <TextBlock Margin="15,15,0,0" Name="encoder1"
                 HorizontalAlignment="Stretch" VerticalAlignment="Top" 
                   TextWrapping="Wrap"
                   Grid.Row="5" Grid.Column="4" Grid.ColumnSpan="2">
                     <Bold> ENCODER DATA 1</Bold>
                     <LineBreak/>
                     MORE INFO :)
-                </TextBlock>
+            </TextBlock>
 
-                <TextBlock Margin="15,15,0,0"
+            <TextBlock Margin="15,15,0,0" Name="encoder2"
                 HorizontalAlignment="Stretch" VerticalAlignment="Top" 
                   TextWrapping="Wrap"
                   Grid.Row="7" Grid.Column="4" Grid.ColumnSpan="2">
@@ -265,7 +267,7 @@
                     MORE INFO :)
                 </TextBlock>
 
-                <TextBlock Margin="15,15,0,0"
+                <TextBlock Margin="15,15,0,0" Name="encoder3"
                 HorizontalAlignment="Stretch" VerticalAlignment="Top" 
                   TextWrapping="Wrap"
                   Grid.Row="9" Grid.Column="4" Grid.ColumnSpan="2">

@@ -60,8 +60,38 @@ namespace MotorMotionControlGUI
 
         };
 
+
+        struct Encoder
+        {
+            private readonly string name;
+            private readonly string units;
+            public float currentVal;
+            private readonly string additionalDetails;
+            private TextBlock tbDescription;
+
+            public Encoder(string name, string units, TextBlock tbDescription, string additionalDetails = null)
+            {
+                this.name = name;
+                this.units = units;
+                this.currentVal = 0;
+                this.additionalDetails = additionalDetails;
+                this.tbDescription = tbDescription;
+
+            }
+
+            public string Name { get { return name; } }
+            public float CurrentVal { get { return currentVal; } }
+            public string Units { get { return units; } }
+            public string AdditionalDetails { get { return additionalDetails; } }
+            public TextBlock TbDescription { get { return tbDescription; } }
+
+        };
+
+
         Parameter[] paramArr;
+        Encoder[] encodArr;
         int numParameters = 3;
+        int numEncoders = 3;
 
         /*****************
          * NAME: UpdateDescription
@@ -69,7 +99,28 @@ namespace MotorMotionControlGUI
          * ***************/
         private void UpdateDescription(Parameter p)
         {
-            p.TbDescription.Text = p.Name + "\n" + "Range: " + p.Min + " - " + p.Max + " " + p.Units + "\nCurrent Value: " + p.CurrentVal + " " + p.Units + "\n" + p.AdditionalDetails;
+                string text = p.Name.ToUpper() + "\n" + "Range: " + p.Min + " - " + p.Max + " " + p.Units + "\nCurrent Value: " + p.CurrentVal + " " + p.Units;
+            if (p.AdditionalDetails != null)
+                text = text + "\nAdditional Details: " + p.AdditionalDetails;
+            p.TbDescription.Text = text;
+        }
+
+        /*****************
+        * NAME: UpdateDescription
+        * DESCRIPION: Update encoder description with current value.
+        * ***************/
+        private void UpdateDescription(Encoder e)
+        {
+            string text = e.Name.ToUpper();
+
+            if (e.currentVal == 0)
+                text = text + "\nAwaiting feedback from encoder...";
+            else
+                text = text + "\nCurrent Value: " + e.currentVal + e.Units;
+
+            if (e.AdditionalDetails != null)
+                text = text + "\nAdditional Details: " + e.AdditionalDetails;
+            e.TbDescription.Text = text;
         }
 
         /*****************
@@ -94,21 +145,34 @@ namespace MotorMotionControlGUI
             InitializeComponent();
 
            // Initialize array of parameter structs
-           // All parameter values goes here in form: parameterName, minParameterValue, maxParameterValue, unitName, inputTextBoxName, submitButtonName, descriptionTextBoxName
+           // All parameter values goes here in form: parameterName, minParameterValue, maxParameterValue, unitName, inputTextBoxName, submitButtonName, descriptionTextBoxName, optional description
            // Use "f" in front of decimal values to ensure conversion to float (rather than double) for processing with microcontroller
            paramArr = new Parameter[]
             {
-                new Parameter("Position", 0, 365, 180, "degrees", text1, button1, description1),
+                new Parameter("Position", 0, 365, 180, "degrees", text1, button1, description1, "Sets angular position of motor."),
                 new Parameter("Speed", 0, 20, 10.23f, "m/s", text2, button2, description2),
                 new Parameter("Param3", 0, 100, 3, "m/h", text3, button3, description3),
 
             };
 
+            encodArr = new Encoder[]
+            {
+                new Encoder("Encoder 1", "units", encoder1, "Data from encoder parameter 1"),
+                new Encoder("Encoder 2", "m/s", encoder2, "Data from encoder parameter 2"),
+                new Encoder("Encoder 3", "m/h", encoder3, "Data from encoder parameter 3")
+            };
+
+
             // Initialize textbox for each parameter
             for (int i = 0; i < numParameters; i++)
                 InitializeTextBox(paramArr[i]);
 
-        }
+
+            // Initialize textbox for each encoder
+            for (int i = 0; i < numEncoders; i++)
+                    UpdateDescription(encodArr[i]);
+
+            }
 
         /*****************
          * NAME: GetParameter
