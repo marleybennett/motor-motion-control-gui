@@ -40,129 +40,10 @@
                     <RowDefinition/>
                 </Grid.RowDefinitions>
 
-                <!--Title Borders-->
-                <Border Margin="5"
-            BorderThickness="3" BorderBrush="Black"
-            Grid.Column="0" Grid.ColumnSpan="7" Grid.Row="0" Grid.RowSpan="3"
-            >
-                </Border>
-                <Border Margin="5"
-            BorderThickness="3" BorderBrush="Black"
-            Grid.Column="0" Grid.ColumnSpan="7" Grid.Row="0" Grid.RowSpan="2"
-            >
-                </Border>
 
-                <Border Margin="5"
-            BorderThickness="2" BorderBrush="#D3832B"
-            Grid.Column="0" Grid.ColumnSpan="7" Grid.Row="0" Grid.RowSpan="3"
-            >
-                </Border>
-                <Border Margin="5"
-            BorderThickness="2" BorderBrush="#D3832B"
-            Grid.Column="0" Grid.ColumnSpan="7" Grid.Row="0" Grid.RowSpan="2"
-            >
-                </Border>
-
-                <!--Title Text-->
-                <TextBlock Margin="15"
-                    Grid.Row="0" Grid.RowSpan="2"
-                    Grid.Column="0" Grid.ColumnSpan="7"
-                    Text="Motor Motion Controller"
-                    HorizontalAlignment="Center" VerticalAlignment="Center"               
-                    Foreground='Black'
-                    FontSize="24" />
-
-                <TextBlock Margin="10"
-                       Text="Oregon State University: Mars Rover Team"
-                       FontSize="12"
-                       Grid.Row="2"
-                       Grid.Column="0" Grid.ColumnSpan="7"
-                       HorizontalAlignment="Center" VerticalAlignment="Center"
-                       />
-
-
-                <!--Borders for Motor Data-->
-                <Border Margin="5"
-            BorderThickness="2" BorderBrush="Black"
-            Grid.Column="0" Grid.ColumnSpan="2" Grid.Row="4" Grid.RowSpan="9"
-            >
-                </Border>
-                <Border Margin="5"
-            BorderThickness="2" BorderBrush="Black"
-            Grid.Column="0" Grid.ColumnSpan="2" Grid.Row="4" Grid.RowSpan="1"
-            >
-                </Border>
-
-                <Border Margin="5"
-            BorderThickness="1" BorderBrush="#D3832B"
-            Grid.Column="0" Grid.ColumnSpan="2" Grid.Row="4" Grid.RowSpan="9"
-            >
-                </Border>
-                <Border Margin="5"
-            BorderThickness="1" BorderBrush="#D3832B"
-            Grid.Column="0" Grid.ColumnSpan="2" Grid.Row="4" Grid.RowSpan="1"
-            >
-                </Border>
-
-                <!--Info for Motor Data-->
-                <TextBlock Margin="10"
-                       Text="HD Hex Motor"
-                       Grid.Row="4" Grid.Column="0" Grid.ColumnSpan="2"
-                       HorizontalAlignment="Center" VerticalAlignment="Top">
-                </TextBlock>
-
-                <TextBlock Margin="15"
-                    Grid.Row="5" Grid.RowSpan="4"
-                    Grid.Column="0" Grid.ColumnSpan="2"
-                    HorizontalAlignment="Left" VerticalAlignment="Top"
-                    TextWrapping="Wrap"
-                       LineHeight="20">
-               40:1 SPUR GEARBOX <LineBreak/> <LineBreak/>
-            Body Diameter: 12mm <LineBreak/>
-            Voltage: 12VDC <LineBreak/>
-            No-Load Current: 400mA<LineBreak/>
-            Stall Current: 8.5A <LineBreak/>
-            Free Speed: 6000rpm <LineBreak/>
-            Stall Torque: .105Nm <LineBreak/>
-            Max Output Power: 15W <LineBreak/>
-            Encoder Counts Per Revolution: 28 <LineBreak/>
-            Output Shaft: 50mm hex<LineBreak/>
-            Output Shaft Length: 40mm<LineBreak/>
-                </TextBlock>
-
-
-                <!--Parameter Borders-->
-                <Border Margin="5"
-            BorderThickness="2" BorderBrush="Black"
-            Grid.Column="2" Grid.ColumnSpan="2" Grid.Row="4" Grid.RowSpan="9"
-            >
-                </Border>
-                <Border Margin="5"
-            BorderThickness="2" BorderBrush="Black"
-            Grid.Column="2" Grid.ColumnSpan="2" Grid.Row="4" Grid.RowSpan="1"
-            >
-                </Border>
-
-                <Border Margin="5"
-            BorderThickness="1" BorderBrush="#D3832B"
-            Grid.Column="2" Grid.ColumnSpan="2" Grid.Row="4" Grid.RowSpan="9"
-            >
-                </Border>
-                <Border Margin="5"
-            BorderThickness="1" BorderBrush="#D3832B"
-            Grid.Column="2" Grid.ColumnSpan="2" Grid.Row="4" Grid.RowSpan="1"
-            >
-                </Border>
-
-            <!--Parameter Text Details and Input-->
-            <TextBlock Margin="10"
-                    Text="Parameter Values"
-                    Grid.Row="4" Grid.Column="2" Grid.ColumnSpan="2"
-                    HorizontalAlignment="Center" VerticalAlignment="Top"
-                />
-
-
-                <!---Parameter 1-->
+<!-- PARAMETERS -->
+                
+            <!---Parameter 1-->
             <TextBlock x:Name="description1" Grid.Row="5"
                     HorizontalAlignment="Left" VerticalAlignment="Center" 
                     TextWrapping="Wrap" Margin="10" 
@@ -223,6 +104,163 @@
                     Content="Submit" Click ="ButtonSubmit" ClickMode="Release"
                 />
 
+                
+<!-- ENCODER VALUES -->
+                
+            <!--Encoder 1-->
+            <TextBlock Margin="15,15,0,0" Name="encoder1"
+                HorizontalAlignment="Stretch" VerticalAlignment="Top" 
+                  TextWrapping="Wrap"
+                  Grid.Row="5" Grid.Column="4" Grid.ColumnSpan="2">
+            </TextBlock>
+
+            <!--Encoder 2-->
+            <TextBlock Margin="15,15,0,0" Name="encoder2"
+                HorizontalAlignment="Stretch" VerticalAlignment="Top" 
+                  TextWrapping="Wrap"
+                  Grid.Row="7" Grid.Column="4" Grid.ColumnSpan="2">
+            </TextBlock>
+
+            <!--Encoder 3-->
+            <TextBlock Margin="15,15,0,0" Name="encoder3"
+                HorizontalAlignment="Stretch" VerticalAlignment="Top" 
+                  TextWrapping="Wrap"
+                  Grid.Row="9" Grid.Column="4" Grid.ColumnSpan="2">
+            </TextBlock>
+
+<!--ADDITIONAL TEXT DETIALS-->
+                
+            <!--Title Text-->
+            <TextBlock Margin="15"
+                    Grid.Row="0" Grid.RowSpan="2"
+                    Grid.Column="0" Grid.ColumnSpan="7"
+                    Text="Motor Motion Controller"
+                    HorizontalAlignment="Center" VerticalAlignment="Center"               
+                    Foreground='Black'
+                    FontSize="24" />
+
+            <TextBlock Margin="10"
+                       Text="Oregon State University: Mars Rover Team"
+                       FontSize="12"
+                       Grid.Row="2"
+                       Grid.Column="0" Grid.ColumnSpan="7"
+                       HorizontalAlignment="Center" VerticalAlignment="Center"
+                       />
+
+
+            <!--Info for Motor Data-->
+            <TextBlock Margin="10"
+                       Text="HD Hex Motor"
+                       Grid.Row="4" Grid.Column="0" Grid.ColumnSpan="2"
+                       HorizontalAlignment="Center" VerticalAlignment="Top">
+            </TextBlock>
+
+            <TextBlock Margin="15"
+                    Grid.Row="5" Grid.RowSpan="4"
+                    Grid.Column="0" Grid.ColumnSpan="2"
+                    HorizontalAlignment="Left" VerticalAlignment="Top"
+                    TextWrapping="Wrap"
+                       LineHeight="20">
+               40:1 SPUR GEARBOX <LineBreak/> <LineBreak/>
+            Body Diameter: 12mm <LineBreak/>
+            Voltage: 12VDC <LineBreak/>
+            No-Load Current: 400mA<LineBreak/>
+            Stall Current: 8.5A <LineBreak/>
+            Free Speed: 6000rpm <LineBreak/>
+            Stall Torque: .105Nm <LineBreak/>
+            Max Output Power: 15W <LineBreak/>
+            Encoder Counts Per Revolution: 28 <LineBreak/>
+            Output Shaft: 50mm hex<LineBreak/>
+            Output Shaft Length: 40mm<LineBreak/>
+            </TextBlock>
+
+            <!--Parameter Text Details and Input-->
+            <TextBlock Margin="10"
+                    Text="Parameter Values"
+                    Grid.Row="4" Grid.Column="2" Grid.ColumnSpan="2"
+                    HorizontalAlignment="Center" VerticalAlignment="Top"
+                />
+
+            <!--Text and output fields for encoder data-->
+            <TextBlock Margin="10"
+                Text="Motor State"
+                       Grid.Row="4"
+                       Grid.Column="4" Grid.ColumnSpan="2"
+                       HorizontalAlignment="Center" VerticalAlignment="Top"
+                       />
+
+
+<!--BORDERS-->
+
+            <!--Title Borders-->
+                <Border Margin="5"
+            BorderThickness="3" BorderBrush="Black"
+            Grid.Column="0" Grid.ColumnSpan="7" Grid.Row="0" Grid.RowSpan="3"
+            >
+                </Border>
+                
+                <Border Margin="5"
+            BorderThickness="3" BorderBrush="Black"
+            Grid.Column="0" Grid.ColumnSpan="7" Grid.Row="0" Grid.RowSpan="2"
+            >
+                </Border>
+
+                <Border Margin="5"
+            BorderThickness="2" BorderBrush="#D3832B"
+            Grid.Column="0" Grid.ColumnSpan="7" Grid.Row="0" Grid.RowSpan="3"
+            >
+                </Border>
+                <Border Margin="5"
+            BorderThickness="2" BorderBrush="#D3832B"
+            Grid.Column="0" Grid.ColumnSpan="7" Grid.Row="0" Grid.RowSpan="2"
+            >
+                </Border>
+
+            <!--Borders for Motor Data-->
+                <Border Margin="5"
+            BorderThickness="2" BorderBrush="Black"
+            Grid.Column="0" Grid.ColumnSpan="2" Grid.Row="4" Grid.RowSpan="9"
+            >
+                </Border>
+                <Border Margin="5"
+            BorderThickness="2" BorderBrush="Black"
+            Grid.Column="0" Grid.ColumnSpan="2" Grid.Row="4" Grid.RowSpan="1"
+            >
+                </Border>
+
+                <Border Margin="5"
+            BorderThickness="1" BorderBrush="#D3832B"
+            Grid.Column="0" Grid.ColumnSpan="2" Grid.Row="4" Grid.RowSpan="9"
+            >
+                </Border>
+                <Border Margin="5"
+            BorderThickness="1" BorderBrush="#D3832B"
+            Grid.Column="0" Grid.ColumnSpan="2" Grid.Row="4" Grid.RowSpan="1"
+            >
+                </Border>
+
+                <!--Parameter Borders-->
+                <Border Margin="5"
+            BorderThickness="2" BorderBrush="Black"
+            Grid.Column="2" Grid.ColumnSpan="2" Grid.Row="4" Grid.RowSpan="9"
+            >
+                </Border>
+                <Border Margin="5"
+            BorderThickness="2" BorderBrush="Black"
+            Grid.Column="2" Grid.ColumnSpan="2" Grid.Row="4" Grid.RowSpan="1"
+            >
+                </Border>
+
+                <Border Margin="5"
+            BorderThickness="1" BorderBrush="#D3832B"
+            Grid.Column="2" Grid.ColumnSpan="2" Grid.Row="4" Grid.RowSpan="9"
+            >
+                </Border>
+                <Border Margin="5"
+            BorderThickness="1" BorderBrush="#D3832B"
+            Grid.Column="2" Grid.ColumnSpan="2" Grid.Row="4" Grid.RowSpan="1"
+            >
+                </Border>
 
                 <!--Border for encoder data-->
                 <Border Margin="5"
@@ -246,41 +284,6 @@
             Grid.Column="4" Grid.ColumnSpan="2" Grid.Row="4" Grid.RowSpan="1"
             >
                 </Border>
-
-                <!--Text and output fields for encoder data-->
-                <TextBlock Margin="10"
-                Text="Motor State"
-                       Grid.Row="4"
-                       Grid.Column="4" Grid.ColumnSpan="2"
-                       HorizontalAlignment="Center" VerticalAlignment="Top"
-                       />
-
-            <TextBlock Margin="15,15,0,0" Name="encoder1"
-                HorizontalAlignment="Stretch" VerticalAlignment="Top" 
-                  TextWrapping="Wrap"
-                  Grid.Row="5" Grid.Column="4" Grid.ColumnSpan="2">
-                    <Bold> ENCODER DATA 1</Bold>
-                    <LineBreak/>
-                    MORE INFO :)
-            </TextBlock>
-
-            <TextBlock Margin="15,15,0,0" Name="encoder2"
-                HorizontalAlignment="Stretch" VerticalAlignment="Top" 
-                  TextWrapping="Wrap"
-                  Grid.Row="7" Grid.Column="4" Grid.ColumnSpan="2">
-                    <Bold> ENCODER DATA 2</Bold>
-                    <LineBreak/>
-                    MORE INFO :)
-                </TextBlock>
-
-                <TextBlock Margin="15,15,0,0" Name="encoder3"
-                HorizontalAlignment="Stretch" VerticalAlignment="Top" 
-                  TextWrapping="Wrap"
-                  Grid.Row="9" Grid.Column="4" Grid.ColumnSpan="2">
-                    <Bold> ENCODER DATA 3</Bold>
-                    <LineBreak/>
-                    MORE INFO :)
-                </TextBlock>
 
             </Grid>
     </ScrollViewer>
