@@ -13,3 +13,6 @@ C:\Users\marle\source\repos\MotorMotionControlGUI\MotorMotionControlGUI\obj\Debu
 C:\Users\marle\source\repos\MotorMotionControlGUI\MotorMotionControlGUI\obj\Debug\MotorMotionControlGUI.exe
 C:\Users\marle\source\repos\MotorMotionControlGUI\MotorMotionControlGUI\obj\Debug\MotorMotionControlGUI.pdb
 C:\Users\marle\source\repos\MotorMotionControlGUI\MotorMotionControlGUI\obj\Debug\App.baml
+C:\Users\marle\source\repos\MotorMotionControlGUI\MotorMotionControlGUI\bin\Debug\System.IO.Ports.dll
+C:\Users\marle\source\repos\MotorMotionControlGUI\MotorMotionControlGUI\bin\Debug\System.IO.Ports.xml
+C:\Users\marle\source\repos\MotorMotionControlGUI\MotorMotionControlGUI\obj\Debug\MotorMotionControlGUI.csproj.CopyComplete

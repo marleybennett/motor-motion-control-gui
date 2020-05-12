@@ -1,4 +1,10 @@
-﻿<Window x:Class="MotorMotionControlGUI.MainWindow"
+﻿<!--Motor Motion Control-->
+<!--Junior Design 2-->
+<!--Front End GUI-->
+<!-- MainWindow.xaml-->
+<!--Author: Marley Bennett-->
+
+<Window x:Class="MotorMotionControlGUI.MainWindow"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
@@ -166,13 +172,13 @@
             <TextBox  x:Name="text1" Grid.Row="6"
                     HorizontalAlignment="Right" VerticalAlignment="Top"
                     Margin="10" Grid.Column="2"
-                    Tag="Angle" KeyDown="CheckEnter"
+                    Tag="Angle" KeyDown="CheckKey"
                />
 
             <Button x:Name="button1" Grid.Row="6"
                     HorizontalAlignment="Left" VerticalAlignment="Top"
                     Grid.Column="3" Margin="10" 
-                    Content="Submit" Click ="GetTextBox" ClickMode="Release"
+                    Content="Submit" Click ="ButtonSubmit" ClickMode="Release"
                 />
 
 
@@ -187,13 +193,13 @@
             <TextBox  x:Name="text2" Grid.Row="8"
                     HorizontalAlignment="Right" VerticalAlignment="Top"
                     Margin="10" Grid.Column="2"
-                    Tag="Angle" KeyDown="CheckEnter"
+                    Tag="Angle" KeyDown="CheckKey"
                />
 
             <Button x:Name="button2" Grid.Row="8"
                     HorizontalAlignment="Left" VerticalAlignment="Top"
                     Grid.Column="3" Margin="10" 
-                    Content="Submit" Click ="GetTextBox" ClickMode="Release"
+                    Content="Submit" Click ="ButtonSubmit" ClickMode="Release"
                 />
 
 
@@ -208,13 +214,13 @@
             <TextBox  x:Name="text3" Grid.Row="10"
                     HorizontalAlignment="Right" VerticalAlignment="Top"
                     Margin="10" Grid.Column="2"
-                    Tag="Angle" KeyDown="CheckEnter"
+                    Tag="Angle" KeyDown="CheckKey"
                />
 
             <Button x:Name="button3" Grid.Row="10"
                     HorizontalAlignment="Left" VerticalAlignment="Top"
                     Grid.Column="3" Margin="10" 
-                    Content="Submit" Click ="GetTextBox" ClickMode="Release"
+                    Content="Submit" Click ="ButtonSubmit" ClickMode="Release"
                 />
 
 
