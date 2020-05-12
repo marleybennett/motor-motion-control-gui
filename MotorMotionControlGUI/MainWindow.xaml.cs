@@ -2,7 +2,7 @@
  * Motor Motion Control
  * Junior Design 2
  * Front End GUI
- * MainWindow.xaml.cs
+ * File: MainWindow.xaml.cs
  * Author: Marley Bennett
  * ***********************/
 
@@ -109,7 +109,7 @@ namespace MotorMotionControlGUI
             InitializeParameters();
             InitializeEncoders();
 
-            //TO-DO: Re-enable for integration
+            /*TO-DO: Re-enable for integration*/
             //InitializeSerialPort();
         }
 
