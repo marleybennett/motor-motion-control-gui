@@ -124,7 +124,6 @@ namespace MotorMotionControlGUI
        
             // Proof of concept for encoder value update
             // Called when first "SUBMIT" button is pressed
-            // Calls InterpretEncoderData that generates encoder data to update GUI
             button1.Click += new RoutedEventHandler(InterpretEncoderData);
         }
 
@@ -133,7 +132,7 @@ namespace MotorMotionControlGUI
         * NAME: InterpretEncoderData
         * DESCRIPION: PROOF OF CONCEPT
         * Updates random encoder parameter with random value
-        * Similar to functionality of reading serial message and updating appropriate encoder value
+        * Similar to functionality of reading flowDocument with message from SerialPort and updating appropriate encoder value
         * ***************/
         private void InterpretEncoderData(object sender, EventArgs e)
         {
@@ -142,7 +141,7 @@ namespace MotorMotionControlGUI
             // Generates random encoder parameter from 0-2 
             int encoderNum = (int)rand.Next(3);
 
-            // Saves random value for given encoder
+            // Saves random value from 0 - 100 for given encoder
             try
             {
                 encodArr[encoderNum].currentVal = (float)rand.Next(101);
