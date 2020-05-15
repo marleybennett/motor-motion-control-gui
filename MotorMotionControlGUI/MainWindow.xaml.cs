@@ -89,7 +89,7 @@ namespace MotorMotionControlGUI
             {
                 this.name = name;
                 this.units = units;
-                this.currentVal = 0; // Initialize to 0 before resetting with value from encoder
+                this.currentVal = 23; // Initialize to 0 before resetting with value from encoder
                 this.additionalDetails = additionalDetails; //Optional: set to NULL if not set
                 this.tbDescription = tbDescription;
             }
@@ -111,6 +111,49 @@ namespace MotorMotionControlGUI
 
             /*TO-DO: Re-enable for integration*/
             //InitializeSerialPort();
+
+            /* This will call Receive() when data is available via serial port
+             * This function will subsequently read in the data from the serial port
+             * And store it in a FlowDocument (required for WPF)
+             * Then it will call, InterpretEncoderData(flowDoc) which interprets the flowDocument
+             * And updates the appropriate encoder
+             * 
+             TO-DO: Re-enable for integration*/
+             //port.DataReceived += new System.IO.Ports.SerialDataReceivedEventHandler(Receive);
+
+       
+            // Proof of concept for encoder value update
+            // Called when first "SUBMIT" button is pressed
+            // Calls InterpretEncoderData that generates encoder data to update GUI
+            button1.Click += new RoutedEventHandler(InterpretEncoderData);
+        }
+
+
+        /*****************
+        * NAME: InterpretEncoderData
+        * DESCRIPION: PROOF OF CONCEPT
+        * Updates random encoder parameter with random value
+        * Similar to functionality of reading serial message and updating appropriate encoder value
+        * ***************/
+        private void InterpretEncoderData(object sender, EventArgs e)
+        {
+            var rand = new Random();
+
+            // Generates random encoder parameter from 0-2 
+            int encoderNum = (int)rand.Next(3);
+
+            // Saves random value for given encoder
+            try
+            {
+                encodArr[encoderNum].currentVal = (float)rand.Next(101);
+                UpdateEncoderDescription(encodArr[encoderNum]);
+                MessageBox.Show("Update encoder " + encodArr[encoderNum].Name + " with value " + encodArr[encoderNum].currentVal);
+            }
+            catch (Exception err)
+            {
+                MessageBox.Show("could not reset current value." + err);
+            }
+
         }
 
 
@@ -128,7 +171,7 @@ namespace MotorMotionControlGUI
                 // Note: add 'f' after decimal value to make it a float type   
                 new Parameter("Position", 0, 365, 180, "degrees", text1, button1, description1, "Sets angular position of motor."),
                 new Parameter("Speed", 0, 20, 10.23f, "m/s", text2, button2, description2),
-                new Parameter("Param3", 0, 100, 3, "m/h", text3, button3, description3),
+                new Parameter("Acceleration", 0, 20, 3.5f, "m/s", text3, button3, description3, "additional description"),
              };
 
             numParameters = paramArr.Length;
@@ -369,6 +412,8 @@ namespace MotorMotionControlGUI
             }
         }
 
+
+
 /**********************************************
 * The following functions are for serial communication.
 * These will be fully implemented in the integration stage.
@@ -399,8 +444,7 @@ namespace MotorMotionControlGUI
             _port.Open();
         }
 
-
-
+        
         /*****************
          * NAME: Receive
          * DESCRIPION: Receive data from serial port
@@ -425,6 +469,21 @@ namespace MotorMotionControlGUI
             para.Inlines.Add(text);
             flowDoc.Blocks.Add(para);
             flowDocRead.Document = flowDoc;
+            InterpretEncoderData(flowDoc);
+        }
+
+        /*****************
+        * NAME: InterpretEncoderData
+        * DESCRIPION: Decode message from serialPort
+        * Update appropriate encoder struct with appropriate value
+        * ***************/
+        private void InterpretEncoderData(FlowDocument flowDoc)
+        {
+            /* Interpret flow doc to determine encoder parameter and value
+             * Save to appropriate enocder struct 
+             * Call UpdateEncoderDescription with approprate encoder struct, e*/
+
+            //UpdateEncoderDescription(e);
         }
 
         /*****************
