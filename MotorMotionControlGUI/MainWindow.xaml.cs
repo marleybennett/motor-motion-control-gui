@@ -41,7 +41,7 @@ namespace MotorMotionControlGUI
             private readonly string name;       // Name of paraemter
             private readonly float min;         // Min parameter value
             private readonly float max;         // Max paramerter vaue
-            private readonly float defaultVal;  // Default parameter value
+            public float defaultVal;  // Default parameter value
             private readonly string units;      // Untits for parameter
             public float currentVal;            // Current value of parameter
             private readonly string additionalDetails; // Additional details about paramter
@@ -102,7 +102,6 @@ namespace MotorMotionControlGUI
 
         };
 
-
         public MainWindow()
         {
             InitializeComponent();
@@ -110,7 +109,7 @@ namespace MotorMotionControlGUI
             InitializeEncoders();
 
             /*TO-DO: Re-enable for integration*/
-            //InitializeSerialPort();
+            InitializeSerialPort();
 
             /* This will call Receive() when data is available via serial port
              * This function will subsequently read in the data from the serial port
@@ -119,12 +118,12 @@ namespace MotorMotionControlGUI
              * And updates the appropriate encoder
              * 
              TO-DO: Re-enable for integration*/
-             //port.DataReceived += new System.IO.Ports.SerialDataReceivedEventHandler(Receive);
+//             _port.DataReceived += new System.IO.Ports.SerialDataReceivedEventHandler(Receive);
 
        
             // Proof of concept for encoder value update
             // Called when first "SUBMIT" button is pressed
-            button1.Click += new RoutedEventHandler(InterpretEncoderData);
+            button_p.Click += new RoutedEventHandler(InterpretEncoderData);
         }
 
 
@@ -136,7 +135,12 @@ namespace MotorMotionControlGUI
         * ***************/
         private void InterpretEncoderData(object sender, EventArgs e)
         {
-            var rand = new Random();
+
+            byte[] message = { 0x55, 0xAA, 0x05, 0x65, 0x00, 0x05, 0x7E, 0x40 };
+            WriteData(message);
+
+
+            /* var rand = new Random();
 
             // Generates random encoder parameter from 0-2 
             int encoderNum = (int)rand.Next(3);
@@ -151,7 +155,7 @@ namespace MotorMotionControlGUI
             catch (Exception err)
             {
                 MessageBox.Show("could not reset current value." + err);
-            }
+            }*/
 
         }
 
@@ -168,18 +172,22 @@ namespace MotorMotionControlGUI
              {
                 //FORMAT: (name, min, max, defaultVal, units, XamlInputTextBox, XamlButton, XamlDescriptionTextBox, optional additionalData)
                 // Note: add 'f' after decimal value to make it a float type   
-                new Parameter("Position", 0, 365, 180, "degrees", text1, button1, description1, "Sets angular position of motor."),
-                new Parameter("Speed", 0, 20, 10.23f, "m/s", text2, button2, description2),
-                new Parameter("Acceleration", 0, 20, 3.5f, "m/s", text3, button3, description3, "additional description"),
+                new Parameter("Proportional", 0, 0xFFFFFFFF/1000, 180, "degrees", text_p, button_p, description_p, "Proportional component of PID"),
+                new Parameter("Integral", 0, 0xFFFFFFFF/1000, 10.23f, "m/s", text_i, button_i, description_i, "Integral component of PID"),
+                new Parameter("Derviative", 0, 0xFFFFFFFF/1000, 3.5f, "m/s", text_d, button_d, description_d, "Derviative component of PID"),
              };
-
+            
             numParameters = paramArr.Length;
 
             // Initialize textbox for each parameter
             for (int i = 0; i < numParameters; i++)
                 InitializeParameterXaml(paramArr[i]);
+            
+            generateHexString("P");
+            generateHexString("I");
+            generateHexString("D");
         }
-
+        
 
         /*****************
          * NAME: InitailizeEncoders
@@ -192,9 +200,9 @@ namespace MotorMotionControlGUI
             encodArr = new Encoder[]
             {
                 // FORMAT: (value name, units, XamlTextBox, optional additionalDetails)
-                new Encoder("Encoder 1", "units", encoder1, "Data from encoder parameter 1"),
-                new Encoder("Encoder 2", "m/s", encoder2, "Data from encoder parameter 2"),
-                new Encoder("Encoder 3", "m/h", encoder3, "Data from encoder parameter 3")
+                new Encoder("Position", "degrees", encoder1, "Current angular position."),
+                //new Encoder("Encoder 2", "m/s", encoder2, "Data from encoder parameter 2"),
+                //new Encoder("Encoder 3", "m/h", encoder3, "Data from encoder parameter 3")
             };
             
             numEncoders = encodArr.Length;
@@ -202,6 +210,8 @@ namespace MotorMotionControlGUI
             // Initialize textbox for each encoder
             for (int i = 0; i < numEncoders; i++)
                 UpdateEncoderDescription(encodArr[i]);
+
+            generateHexString("P");
         }
 
 
@@ -354,9 +364,9 @@ namespace MotorMotionControlGUI
                 MessageBox.Show("Updated " + p.TbInput.Tag.ToString() + " with new value of " + value + " " + p.Units);
                 p.currentVal = validFloat;
                 UpdateParameterDescription(p);
-                /*TO-DO: Re-enable for integration
-                 * TO-DO: Determine which data to send**/
-                //SendData(p);
+                generateHexString(p);
+                Thread.Sleep(1000);
+                generateHexString("E");
             }
 
             // Invalid input
@@ -411,6 +421,29 @@ namespace MotorMotionControlGUI
             }
         }
 
+        private void startStop(object sender, RoutedEventArgs e)
+        {
+            if((sender as Button).Content.ToString() == "Start Motor")
+            {
+                (sender as Button).Content = "Stop Motor";
+                generateHexString("R");
+            }
+            else
+            {
+                (sender as Button).Content = "Start Motor";
+                generateHexString("S");
+            }
+
+        }
+
+        private void saveValues(object sender, RoutedEventArgs e)
+        {
+            for(int i = 0; i < numParameters; i++)
+            {
+                paramArr[i].defaultVal = paramArr[i].currentVal;
+            }
+            generateHexString("W");
+        }
 
 
 /**********************************************
@@ -427,9 +460,7 @@ namespace MotorMotionControlGUI
          * ***************/
         private void InitializeSerialPort()
         {
-
-            /*TO-DO: Check communication protocol and verify parameters*/
-            _port.PortName = "COM1";
+            _port.PortName = "COM3";
             _port.BaudRate = 9600;
             _port.Parity = Parity.None;
             _port.StopBits = StopBits.One;
@@ -439,21 +470,28 @@ namespace MotorMotionControlGUI
 
             // Initialize event when data is available for reading
             _port.DataReceived += new System.IO.Ports.SerialDataReceivedEventHandler(Receive);
-
-            _port.Open();
+            try
+            {
+                _port.Open();
+            }
+            catch(Exception ex)
+            {
+                MessageBox.Show("No device connection to " + _port.PortName + ". " + ex);
+            }
         }
 
-        
+
         /*****************
          * NAME: Receive
          * DESCRIPION: Receive data from serial port
          * ***************/
-        private delegate void UpdateUiTextDelegate(string text);
+        private delegate void UpdateUiTextDelegate(byte[] message);
         private void Receive(object sender, System.IO.Ports.SerialDataReceivedEventArgs e)
         {
-            string received_data = _port.ReadExisting();
-            /*TO-DO: Where to save/send data*/
-            Dispatcher.Invoke(DispatcherPriority.Send, new UpdateUiTextDelegate(WriteData), received_data);
+            MessageBox.Show("received message!");
+            byte[] message = new byte[_port.ReadBufferSize];
+            _port.Read(message, 0, message.Length);
+            Dispatcher.Invoke(DispatcherPriority.Send, new UpdateUiTextDelegate(WriteData), message);
         }
 
 
@@ -461,56 +499,133 @@ namespace MotorMotionControlGUI
          * NAME: WriteData
          * DESCRIPION: Write data to GUI
          * ***************/
-        private void WriteData(string text)
+        private void WriteData(byte[] message)
         {
-            /**TO-DO: Determine best format to get this text into the appropriate text box
-             * TO-DO: Determine messaging format to identify parameter associated with data**/
-            para.Inlines.Add(text);
-            flowDoc.Blocks.Add(para);
-            flowDocRead.Document = flowDoc;
-            InterpretEncoderData(flowDoc);
+            int i = 0;
+
+            // Check start bits
+            if (message[i] != 0x55 || message[++i] != 0xAA)
+                return;
+
+            // Get length of message
+            int length = Convert.ToUInt16(message[++i]);
+
+            // Get id
+            string id = Encoding.ASCII.GetString(message, ++i, 1);
+            MessageBox.Show("id: " + id);
+
+            // Get integer value
+            int valInt = 0;
+            for(int j = length-2; j >= 0; j--)
+            {
+                int b = message[++i] << (j * 8);
+                valInt = valInt | b;
+            }
+
+            // Convert to float
+            float val = valInt / 1000;
+
+            // Update appropriate parameter
+            updateGui(id, val);
         }
 
-        /*****************
-        * NAME: InterpretEncoderData
-        * DESCRIPION: Decode message from serialPort
-        * Update appropriate encoder struct with appropriate value
-        * ***************/
-        private void InterpretEncoderData(FlowDocument flowDoc)
+        private void updateGui(string id, float val)
         {
-            /* Interpret flow doc to determine encoder parameter and value
-             * Save to appropriate enocder struct 
-             * Call UpdateEncoderDescription with approprate encoder struct, e*/
 
-            //UpdateEncoderDescription(e);
+            // There is currently only one encoder value so this is hard coded
+            if(id == "e")
+            {
+                encodArr[0].currentVal = val;
+                UpdateEncoderDescription(encodArr[0]);
+            }
+            else if (id == "p" || id == "i" || id == "d")
+            {
+                string tbDescriptionName = "description_" + id;
+                writeParameter(tbDescriptionName, val);
+                MessageBox.Show("Update w/val:  " + val);
+            }
+           
         }
+
+        private void writeParameter(string tbName, float val)
+        {
+            for (int i = 0; i < numParameters; i++)
+            {
+                if (paramArr[i].TbDescription.Name == tbName)
+                {
+                    paramArr[i].currentVal = val;
+                    UpdateParameterDescription(paramArr[i]);
+                    return;
+                }
+            }
+        }
+
+        private byte getParameterId(Parameter p)
+        {
+            string id = p.TbDescription.Name.Substring(12, 1).ToUpper();
+            MessageBox.Show("id: " + id);
+            return (Encoding.ASCII.GetBytes(id)[0]);
+        }
+
 
         /*****************
          * NAME: SendData
          * DESCRIPION: Send data to serial port
          * ***************/
-        private void SendData(Parameter p)
+        private void generateHexString(Parameter p)
         {
-            /*TO-DO: Determine messaging format*/
+            int i = 0;
+            int val = (int)(p.currentVal * 1000);
+            byte[] hexstring = new byte[8];
+
+            hexstring[i] = 0x55;
+            hexstring[++i] = 0xAA;
+            hexstring[++i] = 5;
+            hexstring[++i] = getParameterId(p);
+
+            for (int j = 3; j >= 0; j--)
+            {
+                hexstring[++i] = BitConverter.GetBytes((val >> (j * 8)) & 0xFF)[0];
+            }
+
+            SendData(hexstring);
+        }
+
+        private void generateHexString(string code)
+        {
+            byte[] hexstring = new byte[8];
+            int i = 0;
+            hexstring[i] = 0x55;
+            hexstring[++i] = 0xAA;
+            hexstring[++i] = 1;
+            hexstring[++i] = (Encoding.ASCII.GetBytes(code)[0]);
+
+            SendData(hexstring);
+        }
+
+
+        private void SendData(byte[] hexstring)
+        {
             if (_port.IsOpen)
             {
                 try
                 {
-                    byte[] hexstring = Encoding.ASCII.GetBytes(p.currentVal.ToString()); // Temporarily sending current value
-                    // Convert byte to byte[] to write
+                    //.Write(hexstring, 0, 8);
+
                     foreach (byte hexval in hexstring)
                     {
                         byte[] _hexval = new byte[] { hexval };
+                        MessageBox.Show("byte to write: " + _hexval.ToString());
                         _port.Write(_hexval, 0, 1);
                         Thread.Sleep(1);
                     }
+
+                    MessageBox.Show("Theoretically sent message...");
                 }
-                /*TO-DO: Add interface support for failure to send data*/
                 catch (Exception ex)
                 {
-                    para.Inlines.Add("Failed to send data: " + ex + "\n");
-                    flowDoc.Blocks.Add(para);
-                    flowDocRead.Document = flowDoc;
+                    MessageBox.Show("Failed to send data: " + ex + "\n");
+
                 }
             }
         }

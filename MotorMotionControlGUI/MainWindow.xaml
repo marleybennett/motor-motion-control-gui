@@ -44,19 +44,19 @@
 <!-- PARAMETERS -->
                 
             <!---Parameter 1-->
-            <TextBlock x:Name="description1" Grid.Row="5"
+            <TextBlock x:Name="description_p" Grid.Row="5"
                     HorizontalAlignment="Left" VerticalAlignment="Center" 
                     TextWrapping="Wrap" Margin="10" 
                     Grid.Column="2" Grid.ColumnSpan="2"
                 />
 
-            <TextBox  x:Name="text1" Grid.Row="6"
+            <TextBox  x:Name="text_p" Grid.Row="6"
                     HorizontalAlignment="Right" VerticalAlignment="Top"
                     Margin="10" Grid.Column="2"
-                    Tag="Angle" KeyDown="CheckKey"
+                    KeyDown="CheckKey"
                />
 
-            <Button x:Name="button1" Grid.Row="6"
+            <Button x:Name="button_p" Grid.Row="6"
                     HorizontalAlignment="Left" VerticalAlignment="Top"
                     Grid.Column="3" Margin="10" 
                     Content="Submit" Click ="ButtonSubmit" ClickMode="Release"
@@ -65,19 +65,19 @@
 
 
             <!---Parameter 2-->
-            <TextBlock x:Name="description2" Grid.Row="7"
+            <TextBlock x:Name="description_i" Grid.Row="7"
                     HorizontalAlignment="Left" VerticalAlignment="Center" 
                     TextWrapping="Wrap" Margin="10" 
                     Grid.Column="2" Grid.ColumnSpan="2"
                 />
 
-            <TextBox  x:Name="text2" Grid.Row="8"
+            <TextBox  x:Name="text_i" Grid.Row="8"
                     HorizontalAlignment="Right" VerticalAlignment="Top"
                     Margin="10" Grid.Column="2"
-                    Tag="Angle" KeyDown="CheckKey"
+                    KeyDown="CheckKey"
                />
 
-            <Button x:Name="button2" Grid.Row="8"
+            <Button x:Name="button_i" Grid.Row="8"
                     HorizontalAlignment="Left" VerticalAlignment="Top"
                     Grid.Column="3" Margin="10" 
                     Content="Submit" Click ="ButtonSubmit" ClickMode="Release"
@@ -86,19 +86,19 @@
 
 
             <!---Parameter 3-->
-            <TextBlock x:Name="description3" Grid.Row="9"
+            <TextBlock x:Name="description_d" Grid.Row="9"
                     HorizontalAlignment="Left" VerticalAlignment="Center" 
                     TextWrapping="Wrap" Margin="10" 
                     Grid.Column="2" Grid.ColumnSpan="2"
                 />
 
-            <TextBox  x:Name="text3" Grid.Row="10"
+            <TextBox  x:Name="text_d" Grid.Row="10"
                     HorizontalAlignment="Right" VerticalAlignment="Top"
                     Margin="10" Grid.Column="2"
-                    Tag="Angle" KeyDown="CheckKey"
+                    KeyDown="CheckKey"
                />
 
-            <Button x:Name="button3" Grid.Row="10"
+            <Button x:Name="button_d" Grid.Row="10"
                     HorizontalAlignment="Left" VerticalAlignment="Top"
                     Grid.Column="3" Margin="10" 
                     Content="Submit" Click ="ButtonSubmit" ClickMode="Release"
@@ -113,20 +113,23 @@
                   TextWrapping="Wrap"
                   Grid.Row="5" Grid.Column="4" Grid.ColumnSpan="2">
             </TextBlock>
+                
+            <!-- NOT USING BELOW ENCODERS FOR THIS IMPLEMENTATION
+                (INCLUDED FOR PROOF OF CONCEPT)-->
 
-            <!--Encoder 2-->
+            <!--Encoder 2
             <TextBlock Margin="15,15,0,0" Name="encoder2"
                 HorizontalAlignment="Stretch" VerticalAlignment="Top" 
                   TextWrapping="Wrap"
                   Grid.Row="7" Grid.Column="4" Grid.ColumnSpan="2">
-            </TextBlock>
+            </TextBlock> -->
 
-            <!--Encoder 3-->
+            <!--Encoder 3
             <TextBlock Margin="15,15,0,0" Name="encoder3"
                 HorizontalAlignment="Stretch" VerticalAlignment="Top" 
                   TextWrapping="Wrap"
                   Grid.Row="9" Grid.Column="4" Grid.ColumnSpan="2">
-            </TextBlock>
+            </TextBlock> -->
 
 <!--ADDITIONAL TEXT DETIALS-->
                 
@@ -173,6 +176,18 @@
             Output Shaft: 50mm hex<LineBreak/>
             Output Shaft Length: 40mm<LineBreak/>
             </TextBlock>
+
+            <Button x:Name="start" Grid.Row="9"
+                    HorizontalAlignment="Left" VerticalAlignment="Top"
+                    Grid.Column="0" Margin="10" 
+                    Content="Start Motor" Click ="startStop" ClickMode="Release"
+                />
+
+            <Button x:Name="saveVals" Grid.Row="9"
+                    HorizontalAlignment="Left" VerticalAlignment="Top"
+                    Grid.Column="1" Margin="10" 
+                    Content="Save to RAM" Click ="saveValues" ClickMode="Release"
+                />
 
             <!--Parameter Text Details and Input-->
             <TextBlock Margin="10"

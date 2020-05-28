@@ -1,4 +1,4 @@
-C:\Users\marle\source\repos\MotorMotionControlGUI\MotorMotionControlGUI\obj\Debug\MotorMotionControlGUI.csprojAssemblyReference.cache
+C:\Users\marle\source\repos\MotorMotionControlGUI\MotorMotionControlGUI\obj\Debug\App.baml
 C:\Users\marle\source\repos\MotorMotionControlGUI\MotorMotionControlGUI\obj\Debug\MainWindow.g.cs
 C:\Users\marle\source\repos\MotorMotionControlGUI\MotorMotionControlGUI\obj\Debug\App.g.cs
 C:\Users\marle\source\repos\MotorMotionControlGUI\MotorMotionControlGUI\obj\Debug\MotorMotionControlGUI_MarkupCompile.cache
@@ -6,13 +6,13 @@ C:\Users\marle\source\repos\MotorMotionControlGUI\MotorMotionControlGUI\obj\Debu
 C:\Users\marle\source\repos\MotorMotionControlGUI\MotorMotionControlGUI\bin\Debug\MotorMotionControlGUI.exe.config
 C:\Users\marle\source\repos\MotorMotionControlGUI\MotorMotionControlGUI\bin\Debug\MotorMotionControlGUI.exe
 C:\Users\marle\source\repos\MotorMotionControlGUI\MotorMotionControlGUI\bin\Debug\MotorMotionControlGUI.pdb
+C:\Users\marle\source\repos\MotorMotionControlGUI\MotorMotionControlGUI\bin\Debug\System.IO.Ports.dll
+C:\Users\marle\source\repos\MotorMotionControlGUI\MotorMotionControlGUI\bin\Debug\System.IO.Ports.xml
 C:\Users\marle\source\repos\MotorMotionControlGUI\MotorMotionControlGUI\obj\Debug\MainWindow.baml
 C:\Users\marle\source\repos\MotorMotionControlGUI\MotorMotionControlGUI\obj\Debug\MotorMotionControlGUI.g.resources
 C:\Users\marle\source\repos\MotorMotionControlGUI\MotorMotionControlGUI\obj\Debug\MotorMotionControlGUI.Properties.Resources.resources
 C:\Users\marle\source\repos\MotorMotionControlGUI\MotorMotionControlGUI\obj\Debug\MotorMotionControlGUI.csproj.GenerateResource.cache
+C:\Users\marle\source\repos\MotorMotionControlGUI\MotorMotionControlGUI\obj\Debug\MotorMotionControlGUI.csproj.CopyComplete
 C:\Users\marle\source\repos\MotorMotionControlGUI\MotorMotionControlGUI\obj\Debug\MotorMotionControlGUI.exe
 C:\Users\marle\source\repos\MotorMotionControlGUI\MotorMotionControlGUI\obj\Debug\MotorMotionControlGUI.pdb
-C:\Users\marle\source\repos\MotorMotionControlGUI\MotorMotionControlGUI\obj\Debug\App.baml
-C:\Users\marle\source\repos\MotorMotionControlGUI\MotorMotionControlGUI\bin\Debug\System.IO.Ports.dll
-C:\Users\marle\source\repos\MotorMotionControlGUI\MotorMotionControlGUI\bin\Debug\System.IO.Ports.xml
-C:\Users\marle\source\repos\MotorMotionControlGUI\MotorMotionControlGUI\obj\Debug\MotorMotionControlGUI.csproj.CopyComplete
+C:\Users\marle\source\repos\MotorMotionControlGUI\MotorMotionControlGUI\obj\Debug\MotorMotionControlGUI.csprojAssemblyReference.cache
