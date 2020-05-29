@@ -39,10 +39,10 @@ namespace MotorMotionControlGUI
         /* Struct for motion control parameters*/
         struct Parameter
         {
-            private readonly string name;       // Name of paraemter
+            private readonly string name;       // Name of parameter
             private readonly float min;         // Min parameter value
             private readonly float max;         // Max paramerter vaue
-            public float defaultVal;  // Default parameter value
+            public float defaultVal;            // Default parameter value
             private readonly string units;      // Untits for parameter
             public float currentVal;            // Current value of parameter
             private readonly string additionalDetails; // Additional details about paramter
@@ -113,6 +113,7 @@ namespace MotorMotionControlGUI
             portCombo.ItemsSource = ports;
 
             InitializeParameters();
+            // Encoders are not being used for this final implementation
             //InitializeEncoders();
 
             // Initialize data received handler
@@ -126,6 +127,7 @@ namespace MotorMotionControlGUI
          * ***************/
         private async void getEncoder()
         {
+            // Asynchronously generate request for encoder value
             await Task.Run(async () =>
             {
                 while (true)
@@ -143,6 +145,7 @@ namespace MotorMotionControlGUI
          * ***************/
         private async void writeData()
         {
+            // Send serial message
             await Task.Run(async () =>
             {
                 while (true)
@@ -160,15 +163,17 @@ namespace MotorMotionControlGUI
                         catch (Exception ex)
                         {
                             MessageBox.Show("Failed to send data: " + ex + "\n");
-
                         }
                     }
                 }
-                
             });
-            
         }
 
+        /*****************
+         * NAME: addMessage
+         * DESCRIPION: Check if port is open and add message to queue
+         * Return 1 if port is closed, 0 otherwise
+         * ***************/
         private int addMessage(byte[] msg)
         {
             if (_port.IsOpen)
@@ -227,30 +232,6 @@ namespace MotorMotionControlGUI
         
 
         /*****************
-         * NAME: InitializeEncoders
-         * DESCRIPION: Create struct of encoders with values.
-         * Add new encoder values here.
-         * ***************/
-        private void InitializeEncoders()
-        {
-            // Initialize array of Encoder structs
-            encodArr = new Encoder[]
-            {
-                // FORMAT: (value name, units, XamlTextBox, optional additionalDetails)
-                new Encoder("Position", "degrees", encoder1, "Current angular position."),
-                //new Encoder("Encoder 2", "m/s", encoder2, "Data from encoder parameter 2"),
-                //new Encoder("Encoder 3", "m/h", encoder3, "Data from encoder parameter 3")
-            };
-            
-            numEncoders = encodArr.Length;
-
-            // Initialize textbox for each encoder
-            for (int i = 0; i < numEncoders; i++)
-                UpdateEncoderDescription(encodArr[i]);
-        }
-
-
-        /*****************
          * NAME: InitializeParameterXaml
          * DESCRIPION: Set up textbox corresponding to parameter value.
          * ***************/
@@ -291,31 +272,14 @@ namespace MotorMotionControlGUI
 
 
         /*****************
-        * NAME: UpdateEncoderDescription
-        * DESCRIPION: Update encoder description with new current value.
-        * ***************/
-        private void UpdateEncoderDescription(Encoder e)
-        {
-            string text = e.Name.ToUpper() + "\nCurrent Value: ";
-
-            // If encoder value has not been updated
-            if (e.currentVal == -1)
-                text = text + "Awaiting feedback from encoder...";
-
-            else
-                text = text + e.currentVal + e.Units;
-
-            // Add additional details if set
-            if (e.AdditionalDetails != null)
-                text = text + "\nAdditional Details: " + e.AdditionalDetails;
-
-            e.TbDescription.Text = text;
-        }
-
+         * NAME: UpdateEncoderState
+         * DESCRIPION: Generate request for encoder value
+         * ***************/
         private void updateEncoderState(object sender, RoutedEventArgs e)
         {
             generateHexString("e");
         }
+
 
         /*****************
          * NAME: GetParameter
@@ -408,9 +372,6 @@ namespace MotorMotionControlGUI
             // Valid input
             if (validFloat != -1)
             {
-                //MessageBox.Show("Updated " + p.TbInput.Tag.ToString() + " with new value of " + value + " " + p.Units);
-                //p.currentVal = validFloat;
-                //UpdateParameterDescription(p);
                 generateHexString(p, validFloat);
             }
 
@@ -466,6 +427,11 @@ namespace MotorMotionControlGUI
             }
         }
 
+        /*****************
+         * NAME: startStop
+         * DESCRIPION: Start/stop motor based off of current text on button
+         * Send appropriate message and change stop/start button text
+         * ***************/
         private void startStop(object sender, RoutedEventArgs e)
         {
             if((sender as Button).Content.ToString() == "Start Motor")
@@ -479,17 +445,6 @@ namespace MotorMotionControlGUI
                 generateHexString("S");
             }
 
-        }
-
-        /* This function was not implemented across the system
-         * Can be used for future development*/
-        private void saveValues(object sender, RoutedEventArgs e)
-        {
-            for(int i = 0; i < numParameters; i++)
-            {
-                paramArr[i].defaultVal = paramArr[i].currentVal;
-            }
-            generateHexString("W");
         }
 
         /*****************
@@ -581,20 +536,8 @@ namespace MotorMotionControlGUI
          * ***************/
         private void updateGui(string id, float val)
         {
-
-            // There is currently only one encoder value so this is hard coded
-            /*if(id == "e")
-            {
-                encodArr[0].currentVal = val;
-                UpdateEncoderDescription(encodArr[0]);
-            }
-            // Update appropriate parameter
-            else if (id == "p" || id == "i" || id == "d")
-            {*/
-                string tbDescriptionName = "description_" + id;
-                writeParameter(tbDescriptionName, val);
-           // }
-           
+            string tbDescriptionName = "description_" + id;
+            writeParameter(tbDescriptionName, val);
         }
 
         /*****************
@@ -685,6 +628,65 @@ namespace MotorMotionControlGUI
             // Send message
             addMessage(hexstring);
         }
+
+        /*****************
+         * NAME: InitializeEncoders
+         * DESCRIPION: Create struct of encoders with values.
+         * Add new encoder values here.
+         * ***************/
+        private void InitializeEncoders()
+        {
+            // Initialize array of Encoder structs
+            encodArr = new Encoder[]
+            {
+                // FORMAT: (value name, units, XamlTextBox, optional additionalDetails)
+                new Encoder("Position", "degrees", encoder1, "Current angular position."),
+                //new Encoder("Encoder 2", "m/s", encoder2, "Data from encoder parameter 2"),
+                //new Encoder("Encoder 3", "m/h", encoder3, "Data from encoder parameter 3")
+            };
+
+            numEncoders = encodArr.Length;
+
+            // Initialize textbox for each encoder
+            for (int i = 0; i < numEncoders; i++)
+                UpdateEncoderDescription(encodArr[i]);
+        }
+
+        /*****************
+        * NAME: UpdateEncoderDescription
+        * DESCRIPION: Update encoder description with new current value.
+        * ***************/
+        private void UpdateEncoderDescription(Encoder e)
+        {
+            string text = e.Name.ToUpper() + "\nCurrent Value: ";
+
+            // If encoder value has not been updated
+            if (e.currentVal == -1)
+                text = text + "Awaiting feedback from encoder...";
+
+            else
+                text = text + e.currentVal + e.Units;
+
+            // Add additional details if set
+            if (e.AdditionalDetails != null)
+                text = text + "\nAdditional Details: " + e.AdditionalDetails;
+
+            e.TbDescription.Text = text;
+        }
+
+        /* This function was not implemented across the system
+        * Can be used for future development*/
+        private void saveValues(object sender, RoutedEventArgs e)
+        {
+            for (int i = 0; i < numParameters; i++)
+            {
+                paramArr[i].defaultVal = paramArr[i].currentVal;
+            }
+            generateHexString("W");
+        }
+
+
+
     }
 }
 
