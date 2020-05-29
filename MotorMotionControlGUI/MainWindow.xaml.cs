@@ -16,6 +16,7 @@ using System.Windows.Media;
 using System.Windows.Threading;
 using System.Windows.Documents;
 using System.Text;
+using System.Threading.Tasks;
 
 namespace MotorMotionControlGUI
 {
@@ -55,7 +56,7 @@ namespace MotorMotionControlGUI
                 this.min = min;
                 this.max = max;
                 this.defaultVal = defaultValue;
-                this.currentVal = defaultValue; // Initialize current value to default value
+                this.currentVal = -1; // Initialize current value to [-1 (waiting on firmware)
                 this.units = units;
                 this.additionalDetails = additionalDetails; // Optional : set to NULL if not set
                 this.tbInput = tbInput;
@@ -89,7 +90,7 @@ namespace MotorMotionControlGUI
             {
                 this.name = name;
                 this.units = units;
-                this.currentVal = 23; // Initialize to 0 before resetting with value from encoder
+                this.currentVal = -1; // Initialize to -1 before resetting with value from encoder
                 this.additionalDetails = additionalDetails; //Optional: set to NULL if not set
                 this.tbDescription = tbDescription;
             }
@@ -104,61 +105,44 @@ namespace MotorMotionControlGUI
 
         public MainWindow()
         {
+
             InitializeComponent();
+
+            string[] ports = SerialPort.GetPortNames();
+            portCombo.ItemsSource = ports;
+
             InitializeParameters();
             InitializeEncoders();
 
-            /*TO-DO: Re-enable for integration*/
-            InitializeSerialPort();
+             _port.DataReceived += new System.IO.Ports.SerialDataReceivedEventHandler(Receive);
 
-            /* This will call Receive() when data is available via serial port
-             * This function will subsequently read in the data from the serial port
-             * And store it in a FlowDocument (required for WPF)
-             * Then it will call, InterpretEncoderData(flowDoc) which interprets the flowDocument
-             * And updates the appropriate encoder
-             * 
-             TO-DO: Re-enable for integration*/
-//             _port.DataReceived += new System.IO.Ports.SerialDataReceivedEventHandler(Receive);
-
-       
-            // Proof of concept for encoder value update
-            // Called when first "SUBMIT" button is pressed
-            button_p.Click += new RoutedEventHandler(InterpretEncoderData);
+            getEncoder();
         }
 
-
-        /*****************
-        * NAME: InterpretEncoderData
-        * DESCRIPION: PROOF OF CONCEPT
-        * Updates random encoder parameter with random value
-        * Similar to functionality of reading flowDocument with message from SerialPort and updating appropriate encoder value
-        * ***************/
-        private void InterpretEncoderData(object sender, EventArgs e)
+        private async void getEncoder()
         {
+            await Task.Run(async () =>
+            {
+                while (true)
+                {
+                    generateHexString("e");
+                    await Task.Delay(2000);
+                }    
+            });        
+        }
 
-            byte[] message = { 0x55, 0xAA, 0x05, 0x65, 0x00, 0x05, 0x7E, 0x40 };
-            WriteData(message);
-
-
-            /* var rand = new Random();
-
-            // Generates random encoder parameter from 0-2 
-            int encoderNum = (int)rand.Next(3);
-
-            // Saves random value from 0 - 100 for given encoder
+        private void getPort(object sender, EventArgs e)
+        {
             try
             {
-                encodArr[encoderNum].currentVal = (float)rand.Next(101);
-                UpdateEncoderDescription(encodArr[encoderNum]);
-                MessageBox.Show("Update encoder " + encodArr[encoderNum].Name + " with value " + encodArr[encoderNum].currentVal);
+                _port.PortName = (sender as ComboBox).SelectedItem.ToString();
+                InitializeSerialPort();
             }
-            catch (Exception err)
+            catch(Exception ex)
             {
-                MessageBox.Show("could not reset current value." + err);
-            }*/
-
+                MessageBox.Show(ex.ToString());
+            }
         }
-
 
         /*****************
          * NAME: InitailizeParameters
@@ -172,25 +156,21 @@ namespace MotorMotionControlGUI
              {
                 //FORMAT: (name, min, max, defaultVal, units, XamlInputTextBox, XamlButton, XamlDescriptionTextBox, optional additionalData)
                 // Note: add 'f' after decimal value to make it a float type   
-                new Parameter("Proportional", 0, 0xFFFFFFFF/1000, 180, "degrees", text_p, button_p, description_p, "Proportional component of PID"),
-                new Parameter("Integral", 0, 0xFFFFFFFF/1000, 10.23f, "m/s", text_i, button_i, description_i, "Integral component of PID"),
-                new Parameter("Derviative", 0, 0xFFFFFFFF/1000, 3.5f, "m/s", text_d, button_d, description_d, "Derviative component of PID"),
+                new Parameter("Proportional", 0, 0xFFFFFFFF/1000, 0f, "", text_p, button_p, description_p, "Proportional component of PID"),
+                new Parameter("Integral", 0, 0xFFFFFFFF/1000, 1/8f, "", text_i, button_i, description_i, "Integral component of PID"),
+                new Parameter("Derviative", 0, 0xFFFFFFFF/1000, 0f, "", text_d, button_d, description_d, "Derviative component of PID"),
              };
             
             numParameters = paramArr.Length;
-
+            
             // Initialize textbox for each parameter
             for (int i = 0; i < numParameters; i++)
                 InitializeParameterXaml(paramArr[i]);
-            
-            generateHexString("P");
-            generateHexString("I");
-            generateHexString("D");
         }
         
 
         /*****************
-         * NAME: InitailizeEncoders
+         * NAME: InitializeEncoders
          * DESCRIPION: Create struct of encoders with values.
          * Add new encoder values here.
          * ***************/
@@ -211,7 +191,7 @@ namespace MotorMotionControlGUI
             for (int i = 0; i < numEncoders; i++)
                 UpdateEncoderDescription(encodArr[i]);
 
-            generateHexString("P");
+            generateHexString("e");
         }
 
 
@@ -238,8 +218,11 @@ namespace MotorMotionControlGUI
          * ***************/
         private void UpdateParameterDescription(Parameter p)
         {
-            string text = p.Name.ToUpper() + "\n" + "Range: " + p.Min + " - " + p.Max + " " + p.Units + "\nCurrent Value: " + p.CurrentVal + " " + p.Units;
-            
+            string text = p.Name.ToUpper() + "\n" + "Range: " + p.Min + " - " + p.Max + " " + p.Units +"\nCurrent Value: ";
+            if (p.currentVal == -1)
+                text = text + "Awaiting feedback from encoder...";
+            else
+                text = text + p.CurrentVal + " " + p.Units;
             // Add additional details if set
             if (p.AdditionalDetails != null)
                 text = text + "\nAdditional Details: " + p.AdditionalDetails;
@@ -255,14 +238,14 @@ namespace MotorMotionControlGUI
         * ***************/
         private void UpdateEncoderDescription(Encoder e)
         {
-            string text = e.Name.ToUpper();
+            string text = e.Name.ToUpper() + "\nCurrent Value: ";
 
             // If encoder value has not been updated
-            if (e.currentVal == 0)
-                text = text + "\nAwaiting feedback from encoder...";
+            if (e.currentVal == -1)
+                text = text + "Awaiting feedback from encoder...";
 
             else
-                text = text + "\nCurrent Value: " + e.currentVal + e.Units;
+                text = text + e.currentVal + e.Units;
 
             // Add additional details if set
             if (e.AdditionalDetails != null)
@@ -271,6 +254,10 @@ namespace MotorMotionControlGUI
             e.TbDescription.Text = text;
         }
 
+        private void updateEncoderState(object sender, RoutedEventArgs e)
+        {
+            generateHexString("e");
+        }
 
         /*****************
          * NAME: GetParameter
@@ -321,7 +308,7 @@ namespace MotorMotionControlGUI
                 return 0;
 
             // Check range
-            if (valueFloat < p.Min || valueFloat > p.Max)
+            if (valueFloat < p.Min-0.0001 || valueFloat > p.Max+0.0001)
                 return 0;
 
             return valueFloat;
@@ -365,8 +352,6 @@ namespace MotorMotionControlGUI
                 p.currentVal = validFloat;
                 UpdateParameterDescription(p);
                 generateHexString(p);
-                Thread.Sleep(1000);
-                generateHexString("E");
             }
 
             // Invalid input
@@ -458,9 +443,9 @@ namespace MotorMotionControlGUI
          * NAME: InitailizeSerialPort
          * DESCRIPION: Initialize serial port with parameters from communication protocol
          * ***************/
-        private void InitializeSerialPort()
-        {
-            _port.PortName = "COM3";
+        private void InitializeSerialPort() {
+        
+            //_port.PortName = "COM3";
             _port.BaudRate = 9600;
             _port.Parity = Parity.None;
             _port.StopBits = StopBits.One;
@@ -468,11 +453,18 @@ namespace MotorMotionControlGUI
             _port.ReadTimeout = 200;
             _port.WriteTimeout = 50;
 
-            // Initialize event when data is available for reading
-            _port.DataReceived += new System.IO.Ports.SerialDataReceivedEventHandler(Receive);
             try
             {
                 _port.Open();
+                MessageBox.Show("Connected to " + _port.PortName);
+                generateHexString("p");
+                Thread.Sleep(1000);
+                generateHexString("i");
+                Thread.Sleep(1000);
+                generateHexString("d");
+                Thread.Sleep(1000);
+                generateHexString("e");
+                Thread.Sleep(1000);
             }
             catch(Exception ex)
             {
@@ -488,7 +480,6 @@ namespace MotorMotionControlGUI
         private delegate void UpdateUiTextDelegate(byte[] message);
         private void Receive(object sender, System.IO.Ports.SerialDataReceivedEventArgs e)
         {
-            MessageBox.Show("received message!");
             byte[] message = new byte[_port.ReadBufferSize];
             _port.Read(message, 0, message.Length);
             Dispatcher.Invoke(DispatcherPriority.Send, new UpdateUiTextDelegate(WriteData), message);
@@ -512,7 +503,6 @@ namespace MotorMotionControlGUI
 
             // Get id
             string id = Encoding.ASCII.GetString(message, ++i, 1);
-            MessageBox.Show("id: " + id);
 
             // Get integer value
             int valInt = 0;
@@ -542,7 +532,7 @@ namespace MotorMotionControlGUI
             {
                 string tbDescriptionName = "description_" + id;
                 writeParameter(tbDescriptionName, val);
-                MessageBox.Show("Update w/val:  " + val);
+                //MessageBox.Show("Update w/val:  " + val);
             }
            
         }
@@ -563,7 +553,7 @@ namespace MotorMotionControlGUI
         private byte getParameterId(Parameter p)
         {
             string id = p.TbDescription.Name.Substring(12, 1).ToUpper();
-            MessageBox.Show("id: " + id);
+            //MessageBox.Show("id: " + id);
             return (Encoding.ASCII.GetBytes(id)[0]);
         }
 
@@ -610,17 +600,7 @@ namespace MotorMotionControlGUI
             {
                 try
                 {
-                    //.Write(hexstring, 0, 8);
-
-                    foreach (byte hexval in hexstring)
-                    {
-                        byte[] _hexval = new byte[] { hexval };
-                        MessageBox.Show("byte to write: " + _hexval.ToString());
-                        _port.Write(_hexval, 0, 1);
-                        Thread.Sleep(1);
-                    }
-
-                    MessageBox.Show("Theoretically sent message...");
+                    _port.Write(hexstring, 0, hexstring.Length);
                 }
                 catch (Exception ex)
                 {

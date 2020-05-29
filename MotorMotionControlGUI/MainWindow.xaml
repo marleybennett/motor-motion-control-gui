@@ -106,12 +106,32 @@
 
                 
 <!-- ENCODER VALUES -->
-                
+
+            <ComboBox x:Name="portCombo" Grid.Row="3"
+                      HorizontalAlignment="Center" VerticalAlignment="Top"
+                      Grid.Column="2" Grid.ColumnSpan="2" Margin="10"
+                      SelectionChanged="getPort" Text="Select COM Port"
+                      IsEditable="True" IsReadOnly="True"
+                    />
+
+
+            <Button x:Name="start" Grid.Row="5"
+                    HorizontalAlignment="Center" VerticalAlignment="Top"
+                    Grid.Column="4" Margin="10" 
+                    Content="Start Motor" Click ="startStop" ClickMode="Release"
+                />
+
+            <Button x:Name="updateEncoder" Grid.Row="5"
+                    HorizontalAlignment="Center" VerticalAlignment="Top"
+                    Grid.Column="10" Margin="10" 
+                    Content="Update Encoder Value" Click ="updateEncoderState" ClickMode="Release"
+                />
+
             <!--Encoder 1-->
             <TextBlock Margin="15,15,0,0" Name="encoder1"
                 HorizontalAlignment="Stretch" VerticalAlignment="Top" 
                   TextWrapping="Wrap"
-                  Grid.Row="5" Grid.Column="4" Grid.ColumnSpan="2">
+                  Grid.Row="6" Grid.Column="4" Grid.ColumnSpan="2">
             </TextBlock>
                 
             <!-- NOT USING BELOW ENCODERS FOR THIS IMPLEMENTATION
@@ -177,17 +197,6 @@
             Output Shaft Length: 40mm<LineBreak/>
             </TextBlock>
 
-            <Button x:Name="start" Grid.Row="9"
-                    HorizontalAlignment="Left" VerticalAlignment="Top"
-                    Grid.Column="0" Margin="10" 
-                    Content="Start Motor" Click ="startStop" ClickMode="Release"
-                />
-
-            <Button x:Name="saveVals" Grid.Row="9"
-                    HorizontalAlignment="Left" VerticalAlignment="Top"
-                    Grid.Column="1" Margin="10" 
-                    Content="Save to RAM" Click ="saveValues" ClickMode="Release"
-                />
 
             <!--Parameter Text Details and Input-->
             <TextBlock Margin="10"
