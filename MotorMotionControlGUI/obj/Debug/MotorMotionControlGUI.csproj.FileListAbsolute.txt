@@ -15,3 +15,4 @@ C:\Users\marle\source\repos\MotorMotionControlGUI\MotorMotionControlGUI\obj\Debu
 C:\Users\marle\source\repos\MotorMotionControlGUI\MotorMotionControlGUI\obj\Debug\MotorMotionControlGUI.csproj.CopyComplete
 C:\Users\marle\source\repos\MotorMotionControlGUI\MotorMotionControlGUI\obj\Debug\MotorMotionControlGUI.exe
 C:\Users\marle\source\repos\MotorMotionControlGUI\MotorMotionControlGUI\obj\Debug\MotorMotionControlGUI.pdb
+C:\Users\marle\source\repos\MotorMotionControlGUI\MotorMotionControlGUI\obj\Debug\MotorMotionControlGUI.csprojAssemblyReference.cache
