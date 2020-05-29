@@ -37,6 +37,8 @@ The GUI allows users to modify motion control parameters via the text box entry 
     
   
   *Note: Adding additional rows may affect other components of the grid layout.  Be aware that you may have to tinker with the "Grid.RowSpan" and "Grid.ColumnSpan" for other elements to make it look the way you'd like.
+  
+  Optionally, there is embedded support for including encoder values that simply present information on the state of the encoder (can not be changed).  This was not used in the final implementation, but can be reenabled by uncommenting "InitializeEncoders()".
 
 
 
